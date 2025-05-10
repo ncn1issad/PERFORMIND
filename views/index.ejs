@@ -6,22 +6,11 @@
   <title>PerforMind – Învățare de la egal la egal</title>
   <!--suppress HtmlUnknownTarget -->
   <link rel="stylesheet" href="stylesheets/style.css">
+  <!--suppress HtmlUnknownTarget -->
+  <link rel="icon" href="images/favicon.png" sizes="32x32" type="image/png">
 </head>
 <body>
-<header>
-  <div class="container">
-    <nav>
-      <div class="logo">PERFORMIND</div>
-      <ul>
-        <li><a href="#cursuri">Cursuri</a></li>
-        <li><a href="#planuri">Planuri</a></li>
-        <li><a href="#mentori">Mentori</a></li>
-        <li><a href="#proba">Lecție de probă</a></li>
-        <li><a href="#login" class="btn">Intră în cont</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
+<%- include('partials/header') %>
 
 <section class="hero" id="acasa">
   <h1>Descoperă puterea învățării de la egal la egal</h1>
@@ -103,18 +92,6 @@
   </div>
 </section>
 
-<footer>
-  <div class="container">
-    <div class="footer-flex">
-      <p>&copy; 2025 PerforMind. Toate drepturile rezervate.</p>
-      <div>
-        <a href="#acasa">Acasă</a> ·
-        <a href="#planuri">Planuri</a> ·
-        <a href="#cum-funcționează">Cum funcționează</a> ·
-        <a href="#login">Intră în cont</a>
-      </div>
-    </div>
-  </div>
-</footer>
+<%- include('partials/footer') %>
 </body>
 </html>
