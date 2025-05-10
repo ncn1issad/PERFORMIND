@@ -12,5 +12,19 @@
     "express": "^4.21.2",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1"
-  }
+  },
+  "description": "The website for my antreprenorial education preject named PERFORMIND",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ncn1issad/PERFORMIND.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ncn1issad/PERFORMIND/issues"
+  },
+  "homepage": "https://github.com/ncn1issad/PERFORMIND#readme"
 }
