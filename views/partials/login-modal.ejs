@@ -1,0 +1,21 @@
+<div id="loginModal" class="modal hidden" aria-hidden="true">
+    <div class="modal__overlay"></div>
+
+    <div class="modal__box" role="dialog" aria-modal="true">
+        <button class="modal__close" aria-label="Închide">×</button>
+
+        <h2 class="modal__title">Intră în cont</h2>
+
+        <form action="/login" method="post" class="modal__form">
+            <label>E-mail
+                <input type="email" name="email" required>
+            </label>
+
+            <label>Parolă
+                <input type="password" name="password" required minlength="6">
+            </label>
+
+            <button type="submit" class="btn-primary w-full mt-4">Autentificare</button>
+        </form>
+    </div>
+</div>

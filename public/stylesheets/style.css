@@ -254,3 +254,171 @@ footer a {
   }
 }
 
+.modal
+{
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+.modal.hidden
+{
+  display: none;
+}
+.modal__overlay
+{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+}
+.modal__box
+{
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  top: 10vh;
+  max-width: 420px;
+  width: 90%;
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,.2);
+}
+.modal__close
+{
+  position:absolute;
+  top:.75rem;
+  right:.75rem;
+  font-size:1.25rem;
+  line-height:1; border:0;
+  background:none;
+  cursor:pointer;
+}
+.modal__title
+{
+  margin-top:0;
+  margin-bottom:1rem;
+  font-size:1.5rem;
+  font-weight:600;
+  text-align:center;
+}
+.modal__form label
+{
+  display:block;
+  margin-bottom:0.75rem;
+  font-size:.9rem;
+}
+.modal__form input
+{
+  width:100%;
+  padding:.5rem .75rem;
+  border:1px solid #ccc;
+  border-radius:0.5rem;
+}
+.checkbox
+{
+  display:flex;
+  gap:.5rem;
+  align-items:center;
+}
+@keyframes overlayFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalRise {
+  from { opacity: 0; transform: translateY(25px) scale(.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* toggled by JS: add .open to #loginModal or #signupModal */
+.modal.open {
+  display: block;                 /* overrides .hidden          */
+}
+
+.modal__overlay {
+  background: rgba(0,0,0,.55);
+  animation: overlayFade .25s ease-out forwards;
+}
+
+.modal__box {
+  animation: modalRise .25s ease-out forwards;
+}
+
+/* Close button */
+.modal__close {
+  color: var(--dark);
+  font-weight: 700;
+  transition: transform .15s ease, color .15s ease;
+}
+.modal__close:hover,
+.modal__close:focus-visible {
+  color: var(--accent);
+  transform: scale(1.15);
+  outline: none;
+}
+
+/* Form controls */
+.modal__form label {
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.modal__form input {
+  margin-top: .35rem;
+  background: var(--gray);
+  transition: border-color .15s ease, background .15s ease;
+}
+.modal__form input:focus {
+  border-color: var(--accent);
+  background: #fff;
+  outline: none;
+}
+
+/* Custom checkbox */
+.checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid var(--accent);
+  border-radius: .25rem;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+.checkbox input[type="checkbox"]:checked::before {
+  content: "✓";
+  font-size: .85rem;
+  color: var(--light);
+  transform: translateY(-1px);
+}
+.checkbox input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Utility helpers used inside the EJS templates */
+.btn-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--light);
+  padding: .65rem 1.25rem;
+  border-radius: .5rem;
+  font-weight: 600;
+  text-align: center;
+  transition: opacity .15s ease;
+}
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  opacity: .9;
+  outline: none;
+}
+
+.w-full { width: 100%; }
+.mt-4  { margin-top: 1rem; }
+
+/* Prevent body scroll when a modal is open (toggle via JS) */
+body.modal-is-open {
+  overflow: hidden;
+}
+
+

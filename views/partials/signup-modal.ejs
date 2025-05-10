@@ -1,0 +1,33 @@
+<div id="signupModal" class="modal hidden" aria-hidden="true">
+    <div class="modal__overlay"></div>
+
+    <div class="modal__box" role="dialog" aria-modal="true">
+        <button class="modal__close" aria-label="Închide">×</button>
+
+        <h2 class="modal__title">Înscrie-te</h2>
+
+        <form action="/signup" method="post" class="modal__form">
+            <label>Nume și prenume
+                <input type="text" name="fullname" required>
+            </label>
+
+            <label>E-mail
+                <input type="email" name="email" required>
+            </label>
+
+            <label>Parolă
+                <input type="password" name="password" required minlength="6">
+            </label>
+
+            <label>Confirmare parolă
+                <input type="password" name="confirm" required minlength="6">
+            </label>
+
+            <label class="checkbox">
+                <input type="checkbox" name="teach"> Vrei să predai?
+            </label>
+
+            <button type="submit" class="btn-primary w-full mt-4">Creează cont</button>
+        </form>
+    </div>
+</div>
