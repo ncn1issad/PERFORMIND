@@ -19,6 +19,15 @@ router.get('/login', function(req, res, next) {
     // res.send('Login page placeholder. You would typically render a view with the login modal here.');
 });
 
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).send('Could not log out');
+        }
+        res.redirect('/');
+    });
+});
+
 // POST login form
 router.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
@@ -37,6 +46,13 @@ router.post('/login', async (req, res, next) => {
             // Password does not match
             return res.status(400).send('Invalid credentials. Password incorrect.');
         }
+
+        req.session.user = {
+            id: user._id,
+            email: user.email,
+            fullname: user.fullname,
+            teach: user.teach
+        };
 
         // User authenticated
         // Here you would typically set up a session or JWT
