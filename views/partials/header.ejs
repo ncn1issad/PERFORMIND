@@ -2,13 +2,34 @@
     <div class="container">
         <nav>
             <div class="logo">PERFORMIND</div>
-            <ul>
+            <ul class="desktop-menu">
                 <li><a href="#cursuri">Cursuri</a></li>
                 <li><a href="#planuri">Planuri</a></li>
                 <li><a href="#mentori">Mentori</a></li>
                 <li><a href="#proba">Lecție de probă</a></li>
                 <li><a href="#login" class="btn loginLink">Intră în cont</a></li>
             </ul>
+            <button class="mobile-toggle" aria-label="Open menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="black">
+                    <rect y="4" width="24" height="2" rx="1"/>
+                    <rect y="11" width="24" height="2" rx="1"/>
+                    <rect y="18" width="24" height="2" rx="1"/>
+                </svg>
+            </button>
         </nav>
     </div>
 </header>
+
+<div class="mobile-nav-modal hidden">
+    <div class="mobile-nav-overlay"></div>
+    <div class="mobile-nav-content">
+        <button class="mobile-nav-close">&times;</button>
+        <ul>
+            <li><a href="#cursuri">Cursuri</a></li>
+            <li><a href="#planuri">Planuri</a></li>
+            <li><a href="#mentori">Mentori</a></li>
+            <li><a href="#proba">Lecție de probă</a></li>
+            <li><a href="#login" class="btn loginLink">Intră în cont</a></li>
+        </ul>
+    </div>
+</div>

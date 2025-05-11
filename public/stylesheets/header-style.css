@@ -1,0 +1,154 @@
+header {
+  background: var(--light);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+nav .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+nav a.btn {
+  background: var(--accent);
+  color: var(--light);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+nav a.btn:hover {
+  opacity: 0.9;
+}
+
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.mobile-toggle span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--dark);
+  margin: 5px 0;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  display: flex;
+}
+
+.mobile-nav-modal.hidden {
+  display: none;
+}
+
+.mobile-nav-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  animation: overlayFade 0.25s ease-out forwards;
+}
+
+.mobile-nav-content {
+  position: relative;
+  background: white;
+  width: 80%;
+  max-width: 300px;
+  height: 100%;
+  padding: 2rem;
+  margin-left: auto;
+  animation: slideIn 0.3s ease-out forwards;
+  overflow-y: auto;
+}
+
+.mobile-nav-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.mobile-nav-content ul {
+  list-style: none;
+  margin-top: 2rem;
+}
+
+.mobile-nav-content li {
+  margin: 1rem 0;
+}
+
+.mobile-nav-content a {
+  display: block;
+  color: var(--dark);
+  font-size: 1.2rem;
+  text-decoration: none;
+  padding: 0.5rem 0;
+}
+
+.mobile-nav-content a.btn {
+  background: var(--accent);
+  color: var(--light);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  display: inline-block;
+}
+
+@media (max-width: 800px) {
+    nav ul {
+        display: none;
+    }
+    nav .toggle {
+        display: block;
+        cursor: pointer;
+    }
+  nav .desktop-menu {
+    display: none;
+  }
+  .mobile-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
