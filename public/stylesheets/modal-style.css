@@ -112,12 +112,14 @@
     border-radius: .5rem;
     font-weight: 600;
     text-align: center;
-    transition: opacity .15s ease;
+    transition: opacity .15s ease, transform 0.3s ease, font-size 0.3s ease;;
 }
 .btn-primary:hover,
 .btn-primary:focus-visible {
     opacity: .9;
     outline: none;
+    transform: scale(1.05);
+    color: var(--light);
 }
 .w-full { width: 100%; }
 .mt-4  { margin-top: 1rem; }
