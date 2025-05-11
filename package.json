@@ -6,16 +6,17 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "http-errors": "~1.6.3",
+    "mongoose": "^8.14.2",
     "morgan": "~1.9.1"
   },
   "description": "The website for my antreprenorial education preject named PERFORMIND",
   "main": "app.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ncn1issad/PERFORMIND.git"

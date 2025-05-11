@@ -7,7 +7,14 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+const mongoose = require('mongoose');
+const mongoURI = 'mongodb://localhost:27017/PERFORMIND';
+
 var app = express();
+
+mongoose.connect(mongoURI)
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

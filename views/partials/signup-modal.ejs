@@ -6,7 +6,7 @@
 
         <h2 class="modal__title">Înscrie-te</h2>
 
-        <form action="/signup" method="post" class="modal__form">
+        <form action="/users/signup" method="post" class="modal__form">
             <label>Nume și prenume
                 <input type="text" name="fullname" required>
             </label>
@@ -16,11 +16,11 @@
             </label>
 
             <label>Parolă
-                <input type="password" name="password" required minlength="6">
+                <input type="password" name="password" required minlength="8">
             </label>
 
             <label>Confirmare parolă
-                <input type="password" name="confirm" required minlength="6">
+                <input type="password" name="confirm" required minlength="8">
             </label>
 
             <div class="checkbox-container">
