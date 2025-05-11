@@ -199,4 +199,12 @@ footer a {
     text-decoration: none;
 }
 
+.btn {
+    transition: transform 0.3s ease, font-size 0.3s ease;
+}
+.btn:hover {
+    transform: scale(1.05);
+    font-size: 1.05rem;
+    color: var(--light);
+}
 
