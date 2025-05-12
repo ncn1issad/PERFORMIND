@@ -140,7 +140,6 @@ nav a.btn:hover {
 
 .mobile-nav-content a.btn:hover {
     transform: scale(1.05);
-    font-size: 1.2rem;
     color: var(--light);
 }
 
