@@ -6,7 +6,9 @@
 
         <h2 class="modal__title">Intră în cont</h2>
 
-        <form action="/users/login" method="post" class="modal__form">
+        <div id="loginErrorMessage" class="error-message"></div>
+
+        <form id="loginForm" action="/users/login" method="post" class="modal__form">
             <label>E-mail
                 <input type="email" name="email" required>
             </label>

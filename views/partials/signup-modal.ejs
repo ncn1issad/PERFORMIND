@@ -6,7 +6,9 @@
 
         <h2 class="modal__title">Înscrie-te</h2>
 
-        <form action="/users/signup" method="post" class="modal__form">
+        <div id="signupErrorMessage" class="error-message"></div>
+
+        <form id="signupForm" action="/users/signup" method="post" class="modal__form">
             <label>Nume și prenume
                 <input type="text" name="fullname" required>
             </label>

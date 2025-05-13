@@ -47,3 +47,106 @@ document.querySelectorAll('.modal').forEach(modal => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle signup form submission
+    const signupForm = document.getElementById('signupForm');
+
+    if (signupForm) {
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const errorContainer = document.getElementById('signupErrorMessage');
+            errorContainer.style.display = 'none';
+            errorContainer.classList.remove('show');
+
+            const formData = new FormData(signupForm);
+
+            fetch('/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(Object.fromEntries(formData)),
+            })
+            .then(response => {
+                console.log('Signup response status:', response.status);
+                // Always parse the JSON response regardless of status code
+                return response.json().then(data => {
+                    return { data, ok: response.ok };
+                });
+            })
+            .then(result => {
+                console.log('Signup response data:', result.data);
+                if (!result.ok) {
+                    // Display the server's error message
+                    errorContainer.textContent = result.data.error || 'An unknown error occurred';
+                    errorContainer.style.display = 'block';
+                    errorContainer.classList.add('show');
+                } else if (result.data.success) {
+                    // Successful signup - redirect
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 100);
+                }
+            })
+            .catch(error => {
+                errorContainer.textContent = 'A apărut o eroare. Vă rugăm încercați din nou.';
+                errorContainer.style.display = 'block';
+                errorContainer.classList.add('show');
+                console.error('Error:', error);
+            });
+        });
+    }
+
+    // Update the login form handler to use the new animation classes
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const errorContainer = document.getElementById('loginErrorMessage');
+            errorContainer.style.display = 'none';
+            errorContainer.classList.remove('show');
+
+            const formData = new FormData(loginForm);
+            const formDataObj = Object.fromEntries(formData);
+
+
+            fetch('/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(Object.fromEntries(formData)),
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                // First check if the response is ok
+                return response.json().then(data => {
+                    return { data, ok: response.ok };
+                });
+            })
+            .then(result => {
+                console.log('Login response data:', result.data);
+                if (!result.ok) {
+                    // Display the server's error message
+                    errorContainer.textContent = result.data.error || 'An unknown error occurred';
+                    errorContainer.style.display = 'block';
+                    errorContainer.classList.add('show');
+                } else if (result.data.success) {
+                    // Successful login - redirect
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 100);
+                }
+            })
+            .catch(error => {
+                errorContainer.textContent = 'A apărut o eroare. Vă rugăm încercați din nou.';
+                errorContainer.style.display = 'block';
+                errorContainer.classList.add('show');
+                console.error('Error:', error);
+            });
+        });
+    }
+});

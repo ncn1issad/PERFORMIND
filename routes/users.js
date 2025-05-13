@@ -37,14 +37,14 @@ router.post('/login', async (req, res, next) => {
         const user = await User.findOne({ email });
         if (!user) {
             // User not found
-            return res.status(400).send('Invalid credentials. User not found.');
+            return res.status(400).json({ error: 'Invalid credentials. User not found.' });
         }
 
         // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             // Password does not match
-            return res.status(400).send('Invalid credentials. Password incorrect.');
+            return res.status(400).json({ error: 'Invalid credentials. Password incorrect.' });
         }
 
         req.session.user = {
@@ -54,11 +54,12 @@ router.post('/login', async (req, res, next) => {
             teach: user.teach
         };
 
-        // User authenticated
-        // Here you would typically set up a session or JWT
-        // For now, let's just redirect to a success page or user dashboard
-        // console.log('User logged in:', user.email);
-        res.redirect('/'); // Redirect to homepage after successful login
+        req.session.save((err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to create session' });
+            }
+            return res.status(200).json({ success: true });
+        });
 
     } catch (err) {
         console.error(err.message);
@@ -73,14 +74,14 @@ router.post('/signup', async (req, res, next) => {
     // Check if passwords match
     if (password !== confirm) {
         // You should ideally send this error back to the form or render a page with an error
-        return res.status(400).send('Passwords do not match.');
+        return res.status(400).json({ error: 'Parolele nu se potrivesc.' });
     }
 
     try {
         let user = await User.findOne({ email });
         if (user) {
             // User already exists
-            return res.status(400).send('User already exists with this email.');
+            return res.status(400).json({ error: 'Există deja un utilizator cu acest email.' });
         }
 
         // Hash password
@@ -97,9 +98,7 @@ router.post('/signup', async (req, res, next) => {
 
         await user.save();
 
-        // Redirect to a success page, login page, or send a success message
-        // For example, redirect to a login page (you'll need to create this route and view)
-        res.redirect('/users/login'); // Assuming you'll have a login route at /users/login
+        return res.status(200).json({ success: true });
 
     } catch (err) {
         console.error(err.message);
