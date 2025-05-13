@@ -14,6 +14,25 @@ document.addEventListener('DOMContentLoaded', () => {
             (urlParams.toString() ? '?' + urlParams.toString() : '');
         history.replaceState({}, document.title, newUrl);
     }
+
+    // Add modal switching functionality
+    const switchToSignup = document.getElementById('switchToSignup');
+    if (switchToSignup) {
+        switchToSignup.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#loginModal').classList.add('hidden');
+            document.querySelector('#signupModal').classList.remove('hidden');
+        });
+    }
+
+    const switchToLogin = document.getElementById('switchToLogin');
+    if (switchToLogin) {
+        switchToLogin.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('#signupModal').classList.add('hidden');
+            document.querySelector('#loginModal').classList.remove('hidden');
+        });
+    }
 });
 const qs = sel => document.querySelectorAll(sel);
 const toggle = modalIdSelector => {

@@ -70,6 +70,31 @@
     outline: none;
 }
 
+.modal__footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,.08);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.modal__footer p {
+    margin: 0.5rem 0;
+}
+
+.modal__footer a {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity .15s ease;
+}
+
+.modal__footer a:hover,
+.modal__footer a:focus-visible {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
 /* Checkbox styles */
 .checkbox-container {
     display: flex;
@@ -112,7 +137,8 @@
     border-radius: .5rem;
     font-weight: 600;
     text-align: center;
-    transition: opacity .15s ease, transform 0.3s ease, font-size 0.3s ease;;
+    transition: opacity .15s ease, transform 0.3s ease, font-size 0.3s ease;
+    border: none;
 }
 .btn-primary:hover,
 .btn-primary:focus-visible {
