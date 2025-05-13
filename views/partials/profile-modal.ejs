@@ -8,11 +8,45 @@
             <div class="profile-details">
                 <p><strong>Nume:</strong> <%= user.fullname %></p>
                 <p><strong>Email:</strong> <%= user.email %></p>
+                <p>
+                    <strong>Clasa:</strong>
+                    <span id="currentGrade"><%= user.grade %></span>
+                    <button id="editGradeBtn" class="edit-btn">Editează</button>
+                </p>
                 <% if (user.teach) { %>
                     <p><strong>Rol:</strong> Mentor</p>
                 <% } else { %>
                     <p><strong>Rol:</strong> Student</p>
                 <% } %>
+            </div>
+            <div id="editGradeForm" class="edit-form hidden">
+                <form id="updateGradeForm">
+                    <label>Actualizează clasa
+                        <select name="grade" required>
+                            <option value="">Selectează clasa</option>
+                            <option value="0">Pregătitoare</option>
+                            <option value="1">Clasa I</option>
+                            <option value="2">Clasa a II-a</option>
+                            <option value="3">Clasa a III-a</option>
+                            <option value="4">Clasa a IV-a</option>
+                            <option value="5">Clasa a V-a</option>
+                            <option value="6">Clasa a VI-a</option>
+                            <option value="7">Clasa a VII-a</option>
+                            <option value="8">Clasa a VIII-a</option>
+                            <option value="9">Clasa a IX-a</option>
+                            <option value="10">Clasa a X-a</option>
+                            <option value="11">Clasa a XI-a</option>
+                            <option value="12">Clasa a XII-a</option>
+                            <option value="student">Student</option>
+                            <option value="absolvent">Absolvent</option>
+                        </select>
+                    </label>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn-primary">Salvează</button>
+                        <button type="button" id="cancelEditGrade" class="btn-secondary">Anulează</button>
+                    </div>
+                </form>
+                <div id="updateGradeError" class="error-message"></div>
             </div>
 
             <a href="/users/logout" class="btn-primary w-full mt-4">Deconectare</a>

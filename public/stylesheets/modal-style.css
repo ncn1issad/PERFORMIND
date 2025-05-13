@@ -147,6 +147,85 @@
     transform: scale(1.05);
     color: var(--light);
 }
+
+.edit-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    text-decoration: underline;
+    transition: opacity 0.15s ease;
+}
+
+.edit-btn:hover {
+    opacity: 0.8;
+}
+
+.edit-form {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: var(--gray);
+    border-radius: 0.5rem;
+}
+
+.edit-form.hidden {
+    display: none;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background: #e0e0e0;
+    color: var(--dark);
+    padding: 0.65rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    opacity: 0.8;
+}
+
+.modal__form select {
+    width: 100%;
+    padding: .5rem .75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    margin-top: .35rem;
+    background: var(--gray);
+}
+
+.modal__form select:focus {
+    border-color: var(--accent);
+    background: #fff;
+    outline: none;
+}
+
+.profile-details {
+    margin-bottom: 1rem;
+}
+
+.edit-form {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: var(--gray);
+    border-radius: 0.5rem;
+}
+
+#updateGradeError {
+    margin-top: 1rem; /* Adds space between the buttons and the error message */
+}
+
 .w-full { width: 100%; }
 .mt-4  { margin-top: 1rem; }
 

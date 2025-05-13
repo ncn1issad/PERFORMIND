@@ -18,6 +18,10 @@ const userSchema = new Schema({
         required: true
         // Password hashing should be handled before saving
     },
+    grade: {
+        type: String,
+        required: true
+    },
     teach: {
         type: Boolean,
         default: false

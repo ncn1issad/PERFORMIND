@@ -51,7 +51,8 @@ router.post('/login', async (req, res, next) => {
             id: user._id,
             email: user.email,
             fullname: user.fullname,
-            teach: user.teach
+            teach: user.teach,
+            grade: user.grade
         };
 
         req.session.save((err) => {
@@ -69,7 +70,7 @@ router.post('/login', async (req, res, next) => {
 
 // POST signup form
 router.post('/signup', async (req, res, next) => {
-    const { fullname, email, password, confirm, teach } = req.body;
+    const { fullname, email, password, confirm, teach, grade } = req.body;
 
     // Check if passwords match
     if (password !== confirm) {
@@ -93,7 +94,8 @@ router.post('/signup', async (req, res, next) => {
             fullname,
             email,
             password: hashedPassword,
-            teach: teach === 'on' // HTML checkbox sends 'on' if checked
+            teach: teach === 'on', // HTML checkbox sends 'on' if checked\
+            grade
         });
 
         await user.save();
@@ -103,6 +105,33 @@ router.post('/signup', async (req, res, next) => {
     } catch (err) {
         console.error(err.message);
         // Pass error to the error handler
+        next(err);
+    }
+});
+
+// POST update grade form
+router.post('/update-grade', async (req, res, next) => {
+    if (!req.session.user) {
+        return res.status(401).json({error: 'Nu sunteți autentificat.'});
+    }
+
+    const {grade} = req.body;
+
+    try {
+        const user = await User.findByIdAndUpdate(
+            req.session.user.id,
+            {grade},
+            {new: true}
+        );
+
+        if (!user) {
+            return res.status(404).json({error: 'Utilizator inexistent.'});
+        }
+
+        req.session.user.grade = grade;
+        return res.status(200).json({success: true});
+    } catch (err) {
+        console.error(err.message);
         next(err);
     }
 });
