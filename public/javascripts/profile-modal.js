@@ -1,3 +1,24 @@
+function formatGrade(grade) {
+    const gradeMap = {
+        "0": "Pregătitoare",
+        "1": "Clasa I",
+        "2": "Clasa a II-a",
+        "3": "Clasa a III-a",
+        "4": "Clasa a IV-a",
+        "5": "Clasa a V-a",
+        "6": "Clasa a VI-a",
+        "7": "Clasa a VII-a",
+        "8": "Clasa a VIII-a",
+        "9": "Clasa a IX-a",
+        "10": "Clasa a X-a",
+        "11": "Clasa a XI-a",
+        "12": "Clasa a XII-a",
+        "student": "Student",
+        "absolvent": "Absolvent"
+    };
+    return gradeMap[grade] || grade;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Profile modal elements
     const profileModal = document.getElementById('profileModal');
@@ -33,6 +54,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const updateGradeForm = document.getElementById('updateGradeForm');
     const currentGradeElement = document.getElementById('currentGrade');
     const updateGradeError = document.getElementById('updateGradeError');
+
+    // In the DOMContentLoaded listener, update the current grade display
+    if (currentGradeElement) {
+        currentGradeElement.textContent = formatGrade(currentGradeElement.textContent.trim());
+    }
 
     if (editGradeBtn) {
         console.log("Edit grade button found");
@@ -80,7 +106,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         updateGradeError.style.display = 'block';
                     } else {
                         // Update displayed grade
-                        currentGradeElement.textContent = formData.get('grade');
+                        const newGrade = formData.get('grade');
+                        currentGradeElement.textContent = formatGrade(newGrade);
                         editGradeForm.classList.add('hidden');
                     }
                 })

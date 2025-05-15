@@ -25,7 +25,12 @@ const userSchema = new Schema({
     teach: {
         type: Boolean,
         default: false
-    }
+    },
+    isVerified: { type: Boolean, default: false },
+    verificationToken: String,
+    verificationExpires: Date,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 // Add these lines:

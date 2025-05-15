@@ -3,18 +3,22 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "jest"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cookie-parser": "~1.4.4",
+    "crypto": "^1.0.1",
     "debug": "~2.6.9",
+    "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
     "http-errors": "~1.6.3",
     "mongoose": "^8.14.2",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "nodemailer": "^7.0.3"
   },
   "description": "The website for my antreprenorial education preject named PERFORMIND",
   "main": "app.js",
@@ -28,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/ncn1issad/PERFORMIND/issues"
   },
-  "homepage": "https://github.com/ncn1issad/PERFORMIND#readme"
+  "homepage": "https://github.com/ncn1issad/PERFORMIND#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
 }
