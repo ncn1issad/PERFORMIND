@@ -168,4 +168,37 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    const resetForm = document.getElementById('resetPasswordForm');
+    if (resetForm) {
+        resetForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('resetEmail').value;
+            const messageEl = document.getElementById('resetMessage');
+
+            try {
+                const response = await fetch('/users/reset-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                messageEl.textContent = data.success
+                    ? 'Email-ul pentru resetarea parolei a fost trimis.'
+                    : (data.error || 'A apărut o eroare.');
+
+                messageEl.className = data.success ? 'alert alert-success' : 'alert alert-danger';
+                messageEl.style.display = 'block';
+            } catch (error) {
+                messageEl.textContent = 'A apărut o eroare la trimiterea cererii.';
+                messageEl.className = 'alert alert-danger';
+                messageEl.style.display = 'block';
+            }
+        });
+    }
 });

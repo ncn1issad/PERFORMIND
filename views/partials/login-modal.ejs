@@ -23,5 +23,16 @@
             <p>Nu ai cont? <a href="#" id="switchToSignup">Înscrie-te</a></p>
             <p><a href="#" id="forgotPasswordLink">Ai uitat parola?</a></p>
         </div>
+        <div class="reset-password-container">
+            <h3>Resetare parolă</h3>
+            <form id="resetPasswordForm">
+                <div class="form-group">
+                    <label for="resetEmail">Adresa de email</label>
+                    <input type="email" id="resetEmail" name="email" required>
+                </div>
+                <button type="submit" class="btn">Trimite link de resetare</button>
+            </form>
+            <div id="resetMessage" class="alert" style="display: none;"></div>
+        </div>
     </div>
 </div>
