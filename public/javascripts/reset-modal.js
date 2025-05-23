@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             resetContainer.appendChild(backButton);
 
             // Handle password reset request form
-            if (resetPasswordForm) {
+            if (!resetPasswordForm.hasAttribute('data-listener-attached')) {
+                resetPasswordForm.setAttribute('data-listener-attached', 'true');
                 resetPasswordForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     const email = document.getElementById('resetEmail').value;

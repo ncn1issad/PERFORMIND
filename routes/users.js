@@ -70,47 +70,6 @@ router.post('/login', async (req, res, next) => {
     }
 });
 
-// POST signup form
-router.post('/signup', async (req, res, next) => {
-    const { fullname, email, password, confirm, teach, grade } = req.body;
-
-    // Check if passwords match
-    if (password !== confirm) {
-        // You should ideally send this error back to the form or render a page with an error
-        return res.status(400).json({ error: 'Parolele nu se potrivesc.' });
-    }
-
-    try {
-        let user = await User.findOne({ email });
-        if (user) {
-            // User already exists
-            return res.status(400).json({ error: 'Există deja un utilizator cu acest email.' });
-        }
-
-        // Hash password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // Create new user
-        user = new User({
-            fullname,
-            email,
-            password: hashedPassword,
-            teach: teach === 'on', // HTML checkbox sends 'on' if checked\
-            grade
-        });
-
-        await user.save();
-
-        return res.status(200).json({ success: true });
-
-    } catch (err) {
-        console.error(err.message);
-        // Pass error to the error handler
-        next(err);
-    }
-});
-
 // POST update grade form
 router.post('/update-grade', async (req, res, next) => {
     if (!req.session.user) {
@@ -222,8 +181,8 @@ router.post('/reset-request', async (req, res, next) => {
 
         // Generate reset token
         const token = crypto.randomBytes(32).toString('hex');
-        user.resetToken = token;
-        user.resetExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
 
         await user.save();
 
@@ -231,28 +190,6 @@ router.post('/reset-request', async (req, res, next) => {
         await emailService.sendPasswordResetEmail(user, token);
 
         res.status(200).json({ success: true, message: 'Email-ul pentru resetarea parolei a fost trimis.' });
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-});
-
-// Reset password with token
-router.get('/reset-password/:token', async (req, res, next) => {
-    try {
-        const { token } = req.params;
-
-        const user = await User.findOne({
-            resetToken: token,
-            resetExpires: { $gt: Date.now() }
-        });
-
-        if (!user) {
-            return res.render('reset-error', { message: 'Link-ul de resetare este invalid sau a expirat.' });
-        }
-
-        // Render reset password form
-        res.render('reset-password', { token });
     } catch (error) {
         console.error(error);
         next(error);
@@ -270,8 +207,8 @@ router.post('/reset-password/:token', async (req, res, next) => {
         }
 
         const user = await User.findOne({
-            resetToken: token,
-            resetExpires: { $gt: Date.now() }
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() }
         });
 
         if (!user) {
@@ -281,8 +218,8 @@ router.post('/reset-password/:token', async (req, res, next) => {
         // Hash password
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
-        user.resetToken = undefined;
-        user.resetExpires = undefined;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
 
         await user.save();
 
