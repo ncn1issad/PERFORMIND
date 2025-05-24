@@ -9,7 +9,7 @@ module.exports = {
     appUrl: process.env.APP_URL || 'http://localhost:3000',
 
     // Database configuration (optional)
-    mongoURI: process.env.MONGO_URI || 'mongodb://localhost:27017/yourdatabase',
+    mongoURI: process.env.MONGO_URI || 'mongodb://localhost:27017/PERFORMIND',
 
     // Server configuration (optional)
     port: process.env.PORT || 3000

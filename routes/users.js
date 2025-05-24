@@ -5,7 +5,10 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const emailService = require('../utils/emailService');
+const Token = require('../models/token');
+const userController = require('../controllers/userController');
 
+// Keep all your existing routes
 router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
@@ -84,6 +87,7 @@ router.post('/update-grade', async (req, res, next) => {
     }
 });
 
+// Modify signup to use the Token model
 router.post('/signup', async (req, res, next) => {
     const { fullname, email, password, confirm, teach, grade } = req.body;
 
@@ -109,13 +113,17 @@ router.post('/signup', async (req, res, next) => {
             isVerified: false
         });
 
-        const token = crypto.randomBytes(32).toString('hex');
-        user.verificationToken = token;
-        user.verificationExpires = Date.now() + 24 * 60 * 60 * 1000;
-
         await user.save();
 
-        await emailService.sendVerificationEmail(user, token);
+        // Create verification token using the Token model
+        const verificationToken = crypto.randomBytes(32).toString('hex');
+        await new Token({
+            userId: user._id,
+            token: verificationToken,
+            type: 'verification'
+        }).save();
+
+        await emailService.sendVerificationEmail(user, verificationToken);
 
         return res.status(200).json({ success: true, message: 'Te rugăm să-ți verifici email-ul pentru a activa contul.' });
 
@@ -125,110 +133,10 @@ router.post('/signup', async (req, res, next) => {
     }
 });
 
-router.get('/verify/:token', async (req, res, next) => {
-    try {
-        const { token } = req.params;
-
-        const user = await User.findOne({
-            verificationToken: token,
-            verificationExpires: { $gt: Date.now() }
-        });
-
-        if (!user) {
-            return res.render('verification-error', { message: 'Link-ul de verificare este invalid sau a expirat.' });
-        }
-
-        user.isVerified = true;
-        user.verificationToken = undefined;
-        user.verificationExpires = undefined;
-
-        await user.save();
-
-        return res.render('verification-success');
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-});
-
-const recentResetRequests = new Map();
-
-router.post('/reset-request', async (req, res, next) => {
-    try {
-        const email = req.body.email;
-
-        const lastRequestTime = recentResetRequests.get(email);
-        const now = Date.now();
-        if (lastRequestTime && (now - lastRequestTime < 10000)) {
-            return res.status(200).json({
-                success: true,
-                message: 'Email-ul pentru resetarea parolei a fost trimis.'
-            });
-        }
-
-        recentResetRequests.set(email, now);
-
-        if (recentResetRequests.size > 100) {
-            const tenMinutesAgo = now - 600000;
-            for (const [key, timestamp] of recentResetRequests.entries()) {
-                if (timestamp < tenMinutesAgo) {
-                    recentResetRequests.delete(key);
-                }
-            }
-        }
-
-        const user = await User.findOne({ email: req.body.email });
-        if (!user) {
-            return res.status(404).json({ error: 'Nu există utilizator cu acest email.' });
-        }
-
-        const token = crypto.randomBytes(32).toString('hex');
-        user.resetPasswordToken = token;
-        user.resetPasswordExpires = Date.now() + 60 * 60 * 1000;
-
-        await user.save();
-
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        await emailService.sendPasswordResetEmail(user, token);
-
-        res.status(200).json({ success: true, message: 'Email-ul pentru resetarea parolei a fost trimis.' });
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-});
-
-router.post('/reset-password/:token', async (req, res, next) => {
-    try {
-        const { token } = req.params;
-        const { password, confirm } = req.body;
-
-        if (password !== confirm) {
-            return res.status(400).json({ error: 'Parolele nu se potrivesc.' });
-        }
-
-        const user = await User.findOne({
-            resetPasswordToken: token,
-            resetPasswordExpires: { $gt: Date.now() }
-        });
-
-        if (!user) {
-            return res.status(400).json({ error: 'Link-ul de resetare este invalid sau a expirat.' });
-        }
-
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpires = undefined;
-
-        await user.save();
-
-        res.status(200).json({ success: true, message: 'Parola a fost resetată cu succes.' });
-    } catch (error) {
-        console.error(error);
-        next(error);
-    }
-});
+// Replace with controller functions for verification and password reset
+router.get('/verify/:token', userController.verifyEmail);
+router.post('/reset-request', userController.requestPasswordReset);
+router.get('/reset-password/:token', userController.resetPasswordForm);
+router.post('/reset-password/:token', userController.resetPassword);
 
 module.exports = router;
