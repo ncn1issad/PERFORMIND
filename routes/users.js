@@ -1,24 +1,17 @@
+// routes/users.js
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User'); // Import the User model
-const bcrypt = require('bcryptjs');   // Import bcryptjs
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const emailService = require('../utils/emailService');
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource'); // This is the default, you might change or remove it
+    res.send('respond with a resource');
 });
 
 router.get('/login', function(req, res, next) {
-    // For now, let's assume the login modal is part of the homepage or another main page.
-    // If you have a dedicated login page (e.g., 'login.ejs'), render that.
-    // Otherwise, you might redirect to the homepage where the modal can be triggered.
-    // res.render('login'); // if you have a views/login.ejs
-    // Or, if the modal is on the index page:
-    res.redirect('/?showLogin=true'); // Or however you trigger the modal on the client-side
-    // For a simpler approach for now, just send a placeholder:
-    // res.send('Login page placeholder. You would typically render a view with the login modal here.');
+    res.redirect('/?showLogin=true');
 });
 
 router.get('/logout', (req, res) => {
@@ -30,22 +23,17 @@ router.get('/logout', (req, res) => {
     });
 });
 
-// POST login form
 router.post('/login', async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
-        // Find user by email
         const user = await User.findOne({ email });
         if (!user) {
-            // User not found
             return res.status(400).json({ error: 'Invalid credentials. User not found.' });
         }
 
-        // Check password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            // Password does not match
             return res.status(400).json({ error: 'Invalid credentials. Password incorrect.' });
         }
 
@@ -66,11 +54,10 @@ router.post('/login', async (req, res, next) => {
 
     } catch (err) {
         console.error(err.message);
-        next(err); // Pass error to the error handler
+        next(err);
     }
 });
 
-// POST update grade form
 router.post('/update-grade', async (req, res, next) => {
     if (!req.session.user) {
         return res.status(401).json({error: 'Nu sunteți autentificat.'});
@@ -110,11 +97,9 @@ router.post('/signup', async (req, res, next) => {
             return res.status(400).json({ error: 'Există deja un utilizator cu acest email.' });
         }
 
-        // Hash password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create new user with verification
         user = new User({
             fullname,
             email,
@@ -124,14 +109,12 @@ router.post('/signup', async (req, res, next) => {
             isVerified: false
         });
 
-        // Generate verification token
         const token = crypto.randomBytes(32).toString('hex');
         user.verificationToken = token;
-        user.verificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+        user.verificationExpires = Date.now() + 24 * 60 * 60 * 1000;
 
         await user.save();
 
-        // Send verification email
         await emailService.sendVerificationEmail(user, token);
 
         return res.status(200).json({ success: true, message: 'Te rugăm să-ți verifici email-ul pentru a activa contul.' });
@@ -142,7 +125,6 @@ router.post('/signup', async (req, res, next) => {
     }
 });
 
-// Verify email route
 router.get('/verify/:token', async (req, res, next) => {
     try {
         const { token } = req.params;
@@ -169,24 +151,45 @@ router.get('/verify/:token', async (req, res, next) => {
     }
 });
 
-// Request password reset
+const recentResetRequests = new Map();
+
 router.post('/reset-request', async (req, res, next) => {
     try {
-        const { email } = req.body;
+        const email = req.body.email;
 
-        const user = await User.findOne({ email });
+        const lastRequestTime = recentResetRequests.get(email);
+        const now = Date.now();
+        if (lastRequestTime && (now - lastRequestTime < 10000)) {
+            return res.status(200).json({
+                success: true,
+                message: 'Email-ul pentru resetarea parolei a fost trimis.'
+            });
+        }
+
+        recentResetRequests.set(email, now);
+
+        if (recentResetRequests.size > 100) {
+            const tenMinutesAgo = now - 600000;
+            for (const [key, timestamp] of recentResetRequests.entries()) {
+                if (timestamp < tenMinutesAgo) {
+                    recentResetRequests.delete(key);
+                }
+            }
+        }
+
+        const user = await User.findOne({ email: req.body.email });
         if (!user) {
             return res.status(404).json({ error: 'Nu există utilizator cu acest email.' });
         }
 
-        // Generate reset token
         const token = crypto.randomBytes(32).toString('hex');
         user.resetPasswordToken = token;
-        user.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+        user.resetPasswordExpires = Date.now() + 60 * 60 * 1000;
 
         await user.save();
 
-        // Send password reset email
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
         await emailService.sendPasswordResetEmail(user, token);
 
         res.status(200).json({ success: true, message: 'Email-ul pentru resetarea parolei a fost trimis.' });
@@ -196,7 +199,6 @@ router.post('/reset-request', async (req, res, next) => {
     }
 });
 
-// Submit new password
 router.post('/reset-password/:token', async (req, res, next) => {
     try {
         const { token } = req.params;
@@ -215,7 +217,6 @@ router.post('/reset-password/:token', async (req, res, next) => {
             return res.status(400).json({ error: 'Link-ul de resetare este invalid sau a expirat.' });
         }
 
-        // Hash password
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password, salt);
         user.resetPasswordToken = undefined;
@@ -229,7 +230,5 @@ router.post('/reset-password/:token', async (req, res, next) => {
         next(error);
     }
 });
-
-// You would also add your login routes here, e.g., GET /users/login and POST /users/login
 
 module.exports = router;

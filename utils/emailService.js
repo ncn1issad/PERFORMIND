@@ -1,3 +1,5 @@
+const emailTracker = new Map();
+
 const nodemailer = require('nodemailer');
 const config = require('../config/config'); // Create this file with your email settings
 
@@ -30,6 +32,14 @@ exports.sendVerificationEmail = async (user, token) => {
 };
 
 exports.sendPasswordResetEmail = async (user, token) => {
+  const email = user.email;
+  const trackingKey = `${email}:${Date.now().toString().substr(0, 8)}`;
+
+  const count = emailTracker.get(trackingKey) || 0;
+  emailTracker.set(trackingKey, count + 1);
+
+  console.log(`🔴 SENDING EMAIL #${count + 1} to ${email} at ${new Date().toISOString()}`);
+
   const resetUrl = `${config.appUrl}/users/reset-password/${token}`;
 
   const mailOptions = {
