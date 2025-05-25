@@ -16,7 +16,16 @@ exports.setTransporter = (newTransporter) => {
 };
 
 exports.sendVerificationEmail = async (user, token) => {
+    const email = user.email;
+    const trackingKey = `${email}:${Date.now().toString().substr(0, 8)}`;
+
+    const count = emailTracker.get(trackingKey) || 0;
+    emailTracker.set(trackingKey, count + 1);
+
+    console.log(`🔴 SENDING VERIFICATION EMAIL #${count + 1} to ${email} at ${new Date().toISOString()}`);
+
     const verificationUrl = `${config.appUrl}/users/verify/${token}`;
+    console.log('Generated verification URL:', verificationUrl);
 
     const mailOptions = {
         from: config.email,
@@ -28,7 +37,14 @@ exports.sendVerificationEmail = async (user, token) => {
            <p>Link-ul expiră în 24 de ore.</p>`
     };
 
-    return transporter.sendMail(mailOptions);
+    try {
+        const result = await transporter.sendMail(mailOptions);
+        console.log('Email sent successfully:', result.messageId);
+        return result;
+    } catch (error) {
+        console.error('Failed to send verification email:', error);
+        throw error;
+    }
 };
 
 exports.sendPasswordResetEmail = async (user, token) => {

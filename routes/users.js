@@ -117,6 +117,7 @@ router.post('/signup', async (req, res, next) => {
 
         // Create verification token using the Token model
         const verificationToken = crypto.randomBytes(32).toString('hex');
+
         await new Token({
             userId: user._id,
             token: verificationToken,

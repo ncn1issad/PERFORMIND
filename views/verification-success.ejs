@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <title>Email Verification Successful</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificare email</title>
     <!--suppress HtmlUnknownTarget -->
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/auth-pages.css' />
 </head>
 <body>
-    <div class="container">
-        <h1>Email verificat cu succes!</h1>
-        <p>Contul tău a fost activat. Acum te poți autentifica.</p>
-        <a href="/login" class="btn">Autentificare</a>
+    <div class="auth-container">
+        <h1>Verificare email</h1>
+        <p>Contul tău a fost verificat cu succes!</p>
+        <div class="message">
+            <div class="success">Poți acum să te conectezi folosind email-ul și parola ta.</div>
+        </div>
+        <a href="/users/login" class="auth-link">Mergi la pagina de autentificare</a>
     </div>
 </body>
 </html>

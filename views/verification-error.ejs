@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <title>Email Verification Failed</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eroare verificare</title>
     <!--suppress HtmlUnknownTarget -->
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/auth-pages.css' />
 </head>
 <body>
-    <div class="container">
-        <h1>Verificarea a eșuat</h1>
-        <p><%= message %></p>
-        <a href="/" class="btn">Înapoi la pagina principală</a>
+    <div class="auth-container">
+        <h1>Eroare verificare email</h1>
+        <p>Nu am putut verifica contul tău.</p>
+        <div class="message">
+            <div class="error"><%= message %></div>
+        </div>
+        <a href="/" class="auth-link">Înapoi la pagina principală</a>
     </div>
 </body>
 </html>
