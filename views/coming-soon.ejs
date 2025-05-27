@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> – PerforMind</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/header-style.css">
+    <link rel="stylesheet" href="/stylesheets/modal-style.css">
+    <link rel="icon" href="/images/favicon.png" sizes="32x32" type="image/png">
+</head>
+<body>
+<%- include('partials/header') %>
+
+<section class="hero" style="min-height: 70vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+    <div class="container">
+        <div style="max-width: 500px; margin: 0 auto; background: var(--light); border-radius: 1rem; padding: 2rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);">
+            <h1 style="color: var(--accent); font-size: 2rem; margin-bottom: 1.5rem;">În curând</h1>
+
+            <div style="margin: 2rem 0;">
+                <svg style="width: 80px; height: 80px; margin: 0 auto; color: var(--accent);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+
+            <p style="margin-bottom: 2rem; color: var(--text);">
+                Lucrăm la această funcționalitate. Vă rugăm să reveniți în curând!
+            </p>
+
+            <a href="/" class="btn" style="background: var(--accent); color: var(--light); padding: 0.75rem 1.5rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600; display: inline-block;">
+                Înapoi la pagina principală
+            </a>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %>
+
+<!-- Include necessary scripts -->
+<script src="/javascripts/modal.js"></script>
+<script src="/javascripts/phone-nav.js"></script>
+</body>
+</html>

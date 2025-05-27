@@ -1,0 +1,31 @@
+<!-- DEBUG: showVerificationModal=<%= typeof showVerificationModal !== 'undefined' ? showVerificationModal : 'undefined' %>, user.isVerified=<%= typeof user !== 'undefined' && user && typeof user.isVerified !== 'undefined' ? user.isVerified : 'undefined' %> -->
+<!-- Email Verification Modal -->
+<div class="modal hidden" id="verification-modal" data-show-modal="<%= typeof showVerificationModal !== 'undefined' && showVerificationModal ? 'true' : 'false' %>">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__box">
+        <button class="modal__close" data-close>&times;</button>
+        <h2 class="verification-modal__title">Email neverificat</h2>
+
+        <div id="verificationErrorMessage" class="verification-modal__message verification-modal__message--error"></div>
+
+        <p class="verification-modal__text">Adresa ta de email nu este încă verificată. Pentru a accesa toate funcționalitățile contului, te rugăm să verifici emailul tău.</p>
+
+        <div class="verification-modal__buttons">
+            <button id="resend-verification" class="btn verification-modal__resend-btn">Retrimite link de verificare</button>
+            <button id="change-email" class="btn verification-modal__change-btn">Schimbă adresa de email</button>
+        </div>
+
+        <div id="email-change-form" class="verification-modal__form">
+            <form id="update-email-form">
+                <div class="verification-modal__form-group">
+                    <label for="new-email">Nouă adresă de email</label>
+                    <input type="email" id="new-email" name="email" required class="verification-modal__input">
+                </div>
+                <button type="submit" class="verification-modal__submit-btn">Actualizează email</button>
+            </form>
+        </div>
+
+        <div id="verification-message" class="verification-modal__message"></div>
+    </div>
+</div>
+

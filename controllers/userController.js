@@ -30,7 +30,19 @@ exports.verifyEmail = async (req, res, next) => {
         // Delete the token after successful verification
         await Token.findByIdAndDelete(tokenDoc._id);
 
-        return res.render('verification-success');
+        if (req.session && req.session.user && req.session.user.id == tokenDoc.userId) {
+            // Update the session to reflect verification
+            req.session.user.isVerified = true;
+
+            return req.session.save(err => {
+                if (err) console.error('Error saving session:', err);
+                // Render success page after session is updated
+                res.render('verification-success');
+            });
+        } else {
+            // If user isn't logged in or is a different user
+            return res.render('verification-success');
+        }
     } catch (error) {
         console.error(error);
         next(error);
