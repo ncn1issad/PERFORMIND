@@ -24,10 +24,11 @@ const verificationMiddleware = (req, res, next) => {
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+// Import config
+const config = require('./config/config');
 const mongoose = require('mongoose');
-const mongoURI = 'mongodb://localhost:27017/PERFORMIND';
 
-mongoose.connect(mongoURI)
+mongoose.connect(config.mongoURI)
     .then(() => console.log('MongoDB connected successfully'))
     .catch(err => console.error('MongoDB connection error:', err));
 
